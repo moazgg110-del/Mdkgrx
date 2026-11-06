@@ -3,81 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رحلة الفضاء اللانهائية - مغامرة الخيال العلمي التفاعلية</title>
+    <title>لعبة المغامرة الذكية - AI Adventure</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-top">
-                <h1>🌌 محطة الفضاء المهجورة</h1>
-                <div class="header-controls">
-                    <button id="toggle-settings-btn" class="icon-btn" title="الإعدادات">⚙️ الإعدادات</button>
-                    <button id="toggle-about-btn" class="icon-btn" title="عن اللعبة">ℹ️ عن اللعبة</button>
-                </div>
+    <div class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="logo">
+                <i class="fa-solid fa-dragon"></i>
+                <span>مغامرة الذكاء الاصطناعي</span>
             </div>
-            <p class="subtitle">لعبة مغامرة خيال علمي تفاعلية لا تنتهي بذكاء Gemini الاصطناعي وتوليد المشاهد المصورة</p>
+            <div class="header-stats">
+                <div class="stat-badge"><i class="fa-solid fa-heart"></i> <span id="player-hp">100</span></div>
+                <div class="stat-badge"><i class="fa-solid fa-star"></i> <span id="player-score">0</span></div>
+                <div class="stat-badge"><i class="fa-solid fa-layer-group"></i> <span id="game-level">المستوى 1</span></div>
+                <button id="settings-btn" class="icon-btn" title="الإعدادات"><i class="fa-solid fa-gear"></i></button>
+            </div>
         </header>
 
-        <!-- قسم الإعدادات -->
-        <div id="settings-panel" class="panel hidden">
-            <h2>⚙️ إعدادات اللعبة</h2>
-            <div class="setting-item">
-                <label>تخصيص مفتاح Gemini API (في حال رغبتك بتغييره):</label>
-                <input type="password" id="api-key-input" placeholder="أدخل مفتاح API هنا...">
-                <button id="save-api-btn" class="sub-btn" style="margin-top: 8px;">حفظ المفتاح الجديد</button>
-            </div>
-            <div class="setting-item">
-                <label>مظهر اللعبة (الوضع):</label>
-                <div class="theme-buttons">
-                    <button id="theme-dark-btn" class="sub-btn active">🌙 الوضع الداكن</button>
-                    <button id="theme-light-btn" class="sub-btn">☀️ الوضع الفاتح</button>
+        <!-- Main Game Area -->
+        <main class="game-main">
+            <div class="story-card">
+                <div id="story-loading" class="loading-spinner hidden">
+                    <i class="fa-solid fa-spinner fa-spin"></i> جاري نسج أحداث القصة...
+                </div>
+                <div id="story-text" class="story-text">
+                    أهلاً بك أيها البطل في عالم المغامرات الأسطوري. تبدأ رحلتك في غامض الأسرار حيث تتشكل الأحداث بناءً على قراراتك الذكية. استعد لتجربة فريدة...
                 </div>
             </div>
-            <div class="setting-item">
-                <label>حجم الخط:</label>
-                <div class="font-buttons">
-                    <button id="font-small-btn" class="sub-btn">صغير</button>
-                    <button id="font-medium-btn" class="sub-btn active">متوسط</button>
-                    <button id="font-large-btn" class="sub-btn">كبير</button>
-                </div>
-            </div>
-            <button id="close-settings-btn" class="action-btn">حفظ وإغلاق الإعدادات</button>
-        </div>
 
-        <!-- قسم عن اللعبة -->
-        <div id="about-panel" class="panel hidden">
-            <h2>ℹ️ حول اللعبة</h2>
-            <div class="about-content">
-                <p><strong>اسم اللعبة:</strong> رحلة الفضاء اللانهائية (Interactive Sci-Fi Visual Adventure)</p>
-                <p><strong>عن اللعبة:</strong> مغامرة تفاعلية خيالية لا تنتهي، يعتمد محركها بالكامل على الذكاء الاصطناعي لتوليد الأحداث، المخاطر، والخيارات، وتوليد صور مشهدية تعبر عن كل حدث بصرياً بناءً على قرارات اللاعب.</p>
-                <p><strong>تطوير وبرمجة المبدع:</strong> <span class="developer-name">معاذ محمد عبد النبي</span></p>
-            </div>
-            <button id="close-about-btn" class="action-btn">إغلاق</button>
-        </div>
-
-        <!-- شاشة اللعب الرئيسية (تبدأ مباشرة) -->
-        <div id="game-panel" class="panel">
-            <!-- حاوية عرض الصورة الديناميكية للحدث -->
-            <div id="image-container" class="image-container">
-                <div id="image-loader" class="image-loader">جاري توليد مشهد الفضاء بالذكاء الاصطناعي... 🎨</div>
-                <img id="scene-image" class="scene-image hidden" alt="مشهد الحدث">
-            </div>
-
-            <div id="story-box" class="story-box">
-                <p class="loading-text">جاري استدعاء محرك الذكاء الاصطناعي وبدء المغامرة الفضائية...</p>
-            </div>
-            
             <div id="choices-container" class="choices-container">
-                <!-- أزرار الاختيارات تظهر هنا ديناميكياً -->
+                <button class="choice-btn" onclick="game.startAdventure()">بدء المغامرة الجديدة <i class="fa-solid fa-play"></i></button>
             </div>
+        </main>
 
-            <div class="custom-input-box">
-                <input type="text" id="custom-action" placeholder="أو اكتب ما تريد فعله بنفسك هنا...">
-                <button id="send-action-btn">إرسال الإجراء</button>
+        <!-- Settings Modal (API Key Field Removed) -->
+        <div id="settings-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>إعدادات اللعبة</h3>
+                    <button id="close-settings" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-item">
+                        <label for="sound-toggle">المؤثرات الصوتية</label>
+                        <input type="checkbox" id="sound-toggle" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label for="theme-select">ثيم اللعبة</label>
+                        <select id="theme-select">
+                            <option value="dark">ليلي داكن (افتراضي)</option>
+                            <option value="cyber">سايبر بانك</option>
+                            <option value="fantasy">خيالي أسطوري</option>
+                        </select>
+                    </div>
+                    <div class="setting-info">
+                        <p><i class="fa-solid fa-circle-info"></i> تم دمج الاتصال المباشر بالذكاء الاصطناعي بنجاح وأمان في النظام.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="save-settings" class="primary-btn">حفظ الإعدادات</button>
+                </div>
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
